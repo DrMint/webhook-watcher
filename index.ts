@@ -16,7 +16,12 @@ const port = parseInt(values.port ?? "3000");
 const server = Bun.serve({
   port,
   fetch: async (req) => {
-    const body = await req.json();
+    let body: unknown;
+    try {
+        body = await req.json();
+    } catch {
+        // No JSON body
+    }
     const headers = req.headers;
     console.log({ body, headers });
     return new Response("OK");

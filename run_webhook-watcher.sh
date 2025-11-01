@@ -1,0 +1,1 @@
+bun start --port 52333

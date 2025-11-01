@@ -36,8 +36,8 @@ export const gitHubPushHandler: Handler = async (
     return new Response("Unauthorized", { status: 401 });
   }
 
-  if (branch !== "main") {
-    return new Response("200 OK", { status: 200 });
+  if (branch !== "refs/heads/main") {
+    return new Response("Accepted", { status: 202 });
   }
 
   console.log(
@@ -47,12 +47,12 @@ export const gitHubPushHandler: Handler = async (
   switch (repository) {
     case "DrMint/webhook-watcher":
       await $`pm2 restart run_webhook-watcher`;
-      return new Response("200 OK", { status: 200 });
+      return new Response("OK", { status: 200 });
     case "DrMint/r-entries.com":
       await $`pm2 restart run_r-entries`;
-      return new Response("200 OK", { status: 200 });
+      return new Response("OK", { status: 200 });
     default:
       console.log(`This repository (${repository}) is not supported.`);
-      return new Response("Not found", { status: 404 });
+      return new Response("Accepted", { status: 202 });
   }
 };

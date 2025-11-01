@@ -1,31 +1,16 @@
-import { parseArgs } from "util";
+import { Endpoint } from "@/handlers/handler";
+import { gitHubPushHandler } from "@/handlers/github-push-handler";
+import { fallbackHandler } from "@/handlers/fallback-handler";
+import { getArgs } from "@/parse-args";
 
-const { values } = parseArgs({
-  args: Bun.argv,
-  options: {
-    port: {
-      type: "string",
-    },
-  },
-  strict: true,
-  allowPositionals: true,
-});
+const args = getArgs();
 
-const port = parseInt(values.port ?? "3000");
+const endpoint = new Endpoint(fallbackHandler);
+endpoint.addHandler(gitHubPushHandler);
 
 const server = Bun.serve({
-  port,
-  fetch: async (req) => {
-    let body: unknown;
-    try {
-        body = await req.json();
-    } catch {
-        // No JSON body
-    }
-    const headers = req.headers;
-    console.log({ body, headers });
-    return new Response("OK");
-  },
+  port: args.port,
+  fetch: endpoint.fetch,
 });
 
 console.log(`Server running at ${server.url}`);

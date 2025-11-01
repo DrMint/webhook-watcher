@@ -24,6 +24,8 @@ export const gitHubPushHandler: Handler = async (
     return next();
   }
 
+  console.log("Received a GitHub push event webhook.");
+
   const event = (await request.json()) as GitHubPushEvent;
 
   const author = event.pusher.name;
@@ -38,6 +40,10 @@ export const gitHubPushHandler: Handler = async (
     return new Response("200 OK", { status: 200 });
   }
 
+  console.log(
+    `New commit pushed on the ${branch} branch of ${repository} by ${author}. Triggering a restart.`
+  );
+
   switch (repository) {
     case "DrMint/webhook-watcher":
       await $`pm2 restart run_webhook-watcher`;
@@ -46,6 +52,7 @@ export const gitHubPushHandler: Handler = async (
       await $`pm2 restart run_r-entries`;
       return new Response("200 OK", { status: 200 });
     default:
+      console.log(`This repository (${repository}) is not supported.`);
       return new Response("Not found", { status: 404 });
   }
 };

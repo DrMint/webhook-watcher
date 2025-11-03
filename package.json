@@ -4,12 +4,16 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun run index.ts"
+    "start": "bun run index.ts",
+    "format": "prettier --write --list-different .",
+    "tsc": "tsc",
+    "precommit": "bun run tsc && bun run format",
+    "upgrade": "ncu"
   },
   "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
+    "@types/bun": "latest",
+    "npm-check-updates": "^19.1.2",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
   }
 }

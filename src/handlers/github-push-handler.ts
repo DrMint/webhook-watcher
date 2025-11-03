@@ -45,17 +45,20 @@ export const gitHubPushHandler: Handler = async (
   );
 
   switch (repository) {
-    case "DrMint/webhook-watcher":
-      await $`pm2 restart run_webhook-watcher`;
+    case "Accords-Library/memorial.accords-library.com":
+      await $`pm2 restart run_al-memorial`;
+      return new Response("OK", { status: 200 });
+    case "DrMint/custom-exporter":
+      await $`pm2 restart run_custom-exporter`;
+      return new Response("OK", { status: 200 });
+    case "DrMint/o3studio.net":
+      await $`pm2 restart run_o3studio`;
       return new Response("OK", { status: 200 });
     case "DrMint/r-entries.com":
       await $`pm2 restart run_r-entries`;
       return new Response("OK", { status: 200 });
-    case "Accords-Library/memorial.accords-library.com":
-      await $`pm2 restart run_al-memorial`;
-      return new Response("OK", { status: 200 });
-    case "DrMint/o3studio.net":
-      await $`pm2 restart run_o3studio_prod`;
+    case "DrMint/webhook-watcher":
+      await $`pm2 restart run_webhook-watcher`;
       return new Response("OK", { status: 200 });
     default:
       console.log(`This repository (${repository}) is not supported.`);

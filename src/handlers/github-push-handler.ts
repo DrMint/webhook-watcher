@@ -46,16 +46,19 @@ export const gitHubPushHandler: Handler = async (
 
   switch (repository) {
     case "Accords-Library/memorial.accords-library.com":
-      await $`pm2 restart run_al-memorial`;
+      await $`docker compose --project-directory /services/al-memorial down`;
+      await $`docker compose --project-directory /services/al-memorial up -d --build`;
       return new Response("OK", { status: 200 });
     case "DrMint/custom-exporter":
       await $`pm2 restart run_custom-exporter`;
       return new Response("OK", { status: 200 });
     case "DrMint/o3studio.net":
-      await $`pm2 restart run_o3studio`;
+      await $`docker compose --project-directory /services/o3studio down`;
+      await $`docker compose --project-directory /services/o3studio up -d --build`;
       return new Response("OK", { status: 200 });
     case "DrMint/r-entries.com":
-      await $`pm2 restart run_r-entries`;
+      await $`docker compose --project-directory /services/r-entries down`;
+      await $`docker compose --project-directory /services/r-entries up -d --build`;
       return new Response("OK", { status: 200 });
     case "DrMint/webhook-watcher":
       await $`pm2 restart run_webhook-watcher`;

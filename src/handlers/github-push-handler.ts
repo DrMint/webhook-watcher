@@ -50,7 +50,7 @@ export const gitHubPushHandler: Handler = async (
       await $`docker compose --project-directory /services/al-memorial up -d --build`;
       return new Response("OK", { status: 200 });
     case "DrMint/custom-exporter":
-      await $`pm2 restart run_custom-exporter`;
+      await $`pm2 restart run_custom_exporter`;
       return new Response("OK", { status: 200 });
     case "DrMint/o3studio.net":
       await $`docker compose --project-directory /services/o3studio down`;

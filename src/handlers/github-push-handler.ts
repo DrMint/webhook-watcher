@@ -63,6 +63,12 @@ export const gitHubPushHandler: Handler = async (
     case "DrMint/webhook-watcher":
       await $`pm2 restart run_webhook-watcher`;
       return new Response("OK", { status: 200 });
+    case "TS-Four-Souls/game":
+      await $`pm2 restart run_four-souls-server`;
+      return new Response("OK", { status: 200 });
+    case "TS-Four-Souls/front-astro":
+      await $`pm2 restart run_four-souls-front`;
+      return new Response("OK", { status: 200 });
     default:
       console.log(`This repository (${repository}) is not supported.`);
       return new Response("Accepted", { status: 202 });

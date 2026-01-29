@@ -15,6 +15,8 @@ type GitHubPushEvent = {
   };
 };
 
+const whitelistedAuthors = ["DrMint", "slichau"];
+
 export const gitHubPushHandler: Handler = async (
   request: Request,
   next: () => Promise<Response> | Response
@@ -32,7 +34,7 @@ export const gitHubPushHandler: Handler = async (
   const branch = event.ref;
   const repository = event.repository.full_name;
 
-  if (author !== "DrMint") {
+  if (!whitelistedAuthors.includes(author)) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -57,7 +59,7 @@ export const gitHubPushHandler: Handler = async (
       await $`docker compose --project-directory /services/o3studio up -d --build`;
       return new Response("OK", { status: 200 });
     case "DrMint/r-entries.com":
-      await $`docker compose --project-directory /services/r-entries down`;
+      await $`docker compose --project-directo ry /services/r-entries down`;
       await $`docker compose --project-directory /services/r-entries up -d --build`;
       return new Response("OK", { status: 200 });
     case "DrMint/webhook-watcher":

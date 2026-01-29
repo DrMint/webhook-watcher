@@ -15,8 +15,6 @@ type GitHubPushEvent = {
   };
 };
 
-const whitelistedAuthors = ["DrMint", "slichau"];
-
 export const gitHubPushHandler: Handler = async (
   request: Request,
   next: () => Promise<Response> | Response
@@ -33,10 +31,6 @@ export const gitHubPushHandler: Handler = async (
   const author = event.pusher.name;
   const branch = event.ref;
   const repository = event.repository.full_name;
-
-  if (!whitelistedAuthors.includes(author)) {
-    return new Response("Unauthorized", { status: 401 });
-  }
 
   if (branch !== "refs/heads/main") {
     return new Response("Accepted", { status: 202 });

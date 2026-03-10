@@ -1,5 +1,10 @@
 import { $ } from "bun";
 import type { Handler } from "@/handlers/handler";
+import { Webhooks } from "@octokit/webhooks";
+
+const octokit = new Webhooks({
+  secret: process.env.GITHUB_WEBHOOK_SECRET ?? "",
+});
 
 type GitHubPushEvent = {
   /* The full git ref that was pushed. Example: refs/heads/main or refs/tags/v3.14.1. */
@@ -26,7 +31,26 @@ export const gitHubPushHandler: Handler = async (
 
   console.log("Received a GitHub push event webhook.");
 
-  const event = (await request.json()) as GitHubPushEvent;
+  // Check if the request has a signature
+  const signature = request.headers.get("x-hub-signature-256");
+  if (!signature) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  // Check if the signature is valid
+  const body = await request.text();
+  if (!(await octokit.verify(body, signature))) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  // Check if the body is a valid JSON object
+  let event: GitHubPushEvent;
+  try {
+    event = JSON.parse(body) as GitHubPushEvent;
+  } catch (error) {
+    console.error("Failed to parse the event:", error);
+    return new Response("Bad Request", { status: 400 });
+  }
 
   const author = event.pusher.name;
   const branch = event.ref;

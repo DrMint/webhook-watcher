@@ -65,13 +65,15 @@ export const gitHubPushHandler: Handler = async (
   );
 
   switch (repository) {
-    case "Accords-Library/memorial.accords-library.com":
-      await $`docker compose --project-directory /services/al-memorial down`;
-      await $`docker compose --project-directory /services/al-memorial build --no-cache`;
-      await $`docker compose --project-directory /services/al-memorial up -d`;
+    case "Accords-Library/keepsake.accords-library.com":
+      await $`docker compose --project-directory /services/accords-library.com/keepsake down`;
+      await $`docker compose --project-directory /services/accords-library.com/keepsake build --no-cache`;
+      await $`docker compose --project-directory /services/accords-library.com/keepsake up -d`;
       return new Response("OK", { status: 200 });
-    case "DrMint/custom-exporter":
-      await $`pm2 restart run_custom_exporter`;
+    case "Accords-Library/memorial.accords-library.com":
+      await $`docker compose --project-directory /services/accords-library.com/memorial down`;
+      await $`docker compose --project-directory /services/accords-library.com/memorial build --no-cache`;
+      await $`docker compose --project-directory /services/accords-library.com/memorial up -d`;
       return new Response("OK", { status: 200 });
     case "DrMint/o3studio.net":
       await $`docker compose --project-directory /services/o3studio down`;
@@ -82,6 +84,9 @@ export const gitHubPushHandler: Handler = async (
       await $`docker compose --project-directory /services/r-entries down`;
       await $`docker compose --project-directory /services/r-entries build --no-cache`;
       await $`docker compose --project-directory /services/r-entries up -d`;
+      return new Response("OK", { status: 200 });
+    case "DrMint/custom-exporter":
+      await $`pm2 restart run_custom_exporter`;
       return new Response("OK", { status: 200 });
     case "DrMint/webhook-watcher":
       await $`pm2 restart run_webhook-watcher`;

@@ -12,9 +12,9 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "npm-check-updates": "^19.6.3",
+    "npm-check-updates": "^20.0.0",
     "prettier": "^3.8.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "dependencies": {
     "@octokit/webhooks": "^14.2.0"

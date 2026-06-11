@@ -82,7 +82,7 @@ export const gitHubPushHandler: Handler = async (
       return new Response("OK", { status: 200 });
     case "DrMint/r-entries.com":
       await $`docker compose --project-directory /services/r-entries down`;
-      await $`docker compose --project-directory /services/r-entries build --no-cache`;
+      await $`docker compose --project-directory /services/r-entries build`;
       await $`docker compose --project-directory /services/r-entries up -d`;
       return new Response("OK", { status: 200 });
     case "DrMint/custom-exporter":

@@ -71,23 +71,23 @@ export const gitHubPushHandler: Handler = async (
 
   switch (repository) {
     case "Accords-Library/keepsake.accords-library.com":
-      await $`docker compose --project-directory /services/accords-library.com/keepsake down`;
       await $`docker compose --project-directory /services/accords-library.com/keepsake build --build-arg COMMIT_SHA=${lastCommitId}`;
+      await $`docker compose --project-directory /services/accords-library.com/keepsake down`;
       await $`docker compose --project-directory /services/accords-library.com/keepsake up -d`;
       return new Response("OK", { status: 200 });
     case "Accords-Library/memorial.accords-library.com":
-      await $`docker compose --project-directory /services/accords-library.com/memorial down`;
       await $`docker compose --project-directory /services/accords-library.com/memorial build --build-arg COMMIT_SHA=${lastCommitId}`;
+      await $`docker compose --project-directory /services/accords-library.com/memorial down`;
       await $`docker compose --project-directory /services/accords-library.com/memorial up -d`;
       return new Response("OK", { status: 200 });
     case "DrMint/o3studio.net":
-      await $`docker compose --project-directory /services/o3studio down`;
       await $`docker compose --project-directory /services/o3studio build --build-arg COMMIT_SHA=${lastCommitId}`;
+      await $`docker compose --project-directory /services/o3studio down`;
       await $`docker compose --project-directory /services/o3studio up -d`;
       return new Response("OK", { status: 200 });
     case "DrMint/r-entries.com":
-      await $`docker compose --project-directory /services/r-entries down`;
       await $`docker compose --project-directory /services/r-entries build --build-arg COMMIT_SHA=${lastCommitId}`;
+      await $`docker compose --project-directory /services/r-entries down`;
       await $`docker compose --project-directory /services/r-entries up -d`;
       return new Response("OK", { status: 200 });
     case "DrMint/custom-exporter":

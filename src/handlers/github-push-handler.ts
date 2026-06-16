@@ -99,16 +99,16 @@ export const gitHubPushHandler: Handler = async (
     case "TS-Four-Souls/game":
       if (branch === "refs/heads/prod") {
         await $`pm2 restart run_four-souls-server-prod`;
-      } else {
-        await $`pm2 restart run_four-souls-server`;
-      }
+      }// else {
+      //  await $`pm2 restart run_four-souls-server`;
+      //}
       return new Response("OK", { status: 200 });
     case "TS-Four-Souls/front-astro":
       if (branch === "refs/heads/prod") {
         await $`pm2 restart run_four-souls-front-prod`;
-      } else {
-        await $`pm2 restart run_four-souls-front`;
-      }
+      }// else {
+      //  await $`pm2 restart run_four-souls-front`;
+      //}
       return new Response("OK", { status: 200 });
     default:
       console.log(`This repository (${repository}) is not supported.`);

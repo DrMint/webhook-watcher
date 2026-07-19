@@ -61,7 +61,9 @@ export const gitHubPushHandler: Handler = async (
 
   const lastCommitId = event.commits[0]?.id;
 
-  if (branch !== "refs/heads/main" && branch !== "refs/heads/prod") {
+  const whitelistedBranches = ["refs/heads/main", "refs/heads/prod", "refs/heads/beta"];
+
+  if (!whitelistedBranches.includes(branch)) {
     return new Response("Accepted", { status: 202 });
   }
 
@@ -99,16 +101,16 @@ export const gitHubPushHandler: Handler = async (
     case "TS-Four-Souls/game":
       if (branch === "refs/heads/prod") {
         await $`pm2 restart run_four-souls-server-prod`;
-      }// else {
-      //  await $`pm2 restart run_four-souls-server`;
-      //}
+      } else if (branch === "refs/heads/beta") {
+        await $`pm2 restart run_four-souls-server-beta`;
+      }
       return new Response("OK", { status: 200 });
     case "TS-Four-Souls/front-astro":
       if (branch === "refs/heads/prod") {
         await $`pm2 restart run_four-souls-front-prod`;
-      }// else {
-      //  await $`pm2 restart run_four-souls-front`;
-      //}
+      } else if (branch === "refs/heads/beta") {
+        await $`pm2 restart run_four-souls-front-beta`;
+      }
       return new Response("OK", { status: 200 });
     default:
       console.log(`This repository (${repository}) is not supported.`);

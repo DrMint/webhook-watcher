@@ -117,7 +117,7 @@ export const gitHubPushHandler: Handler = async (
       }
       return new Response("OK", { status: 200 });
     case "TS-Four-Souls/data":
-      await $`pm2 restart run_four-souls-data`;
+      await $`./run_four-souls-data.sh`.cwd("/services/four-souls/data");
       return new Response("OK", { status: 200 });
     default:
       console.log(`This repository (${repository}) is not supported.`);

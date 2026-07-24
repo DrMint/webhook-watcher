@@ -61,7 +61,11 @@ export const gitHubPushHandler: Handler = async (
 
   const lastCommitId = event.commits[0]?.id;
 
-  const whitelistedBranches = ["refs/heads/main", "refs/heads/prod", "refs/heads/beta"];
+  const whitelistedBranches = [
+    "refs/heads/main",
+    "refs/heads/prod",
+    "refs/heads/beta",
+  ];
 
   if (!whitelistedBranches.includes(branch)) {
     return new Response("Accepted", { status: 202 });
@@ -111,6 +115,9 @@ export const gitHubPushHandler: Handler = async (
       } else if (branch === "refs/heads/beta") {
         await $`pm2 restart run_four-souls-front-beta`;
       }
+      return new Response("OK", { status: 200 });
+    case "TS-Four-Souls/data":
+      await $`pm2 restart run_four-souls-data`;
       return new Response("OK", { status: 200 });
     default:
       console.log(`This repository (${repository}) is not supported.`);

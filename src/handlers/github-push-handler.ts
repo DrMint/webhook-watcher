@@ -92,9 +92,10 @@ export const gitHubPushHandler: Handler = async (
       await $`docker compose --project-directory /services/o3studio up -d`;
       return new Response("OK", { status: 200 });
     case "DrMint/r-entries.com":
-      await $`docker compose --project-directory /services/r-entries build --build-arg COMMIT_SHA=${lastCommitId}`;
-      await $`docker compose --project-directory /services/r-entries down`;
-      await $`docker compose --project-directory /services/r-entries up -d`;
+      await $`git pull`.cwd("/services/r-entries/repo");
+      await $`docker compose build`.cwd("/services/r-entries");
+      await $`docker compose down`.cwd("/services/r-entries");
+      await $`docker compose up -d`.cwd("/services/r-entries");
       return new Response("OK", { status: 200 });
     case "DrMint/custom-exporter":
       await $`pm2 restart run_custom_exporter`;
